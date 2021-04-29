@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  integration-test-db:
+    image: postgres:${postgresql.docker-image.version}
+    ports:
+      - 127:.0.0.1:6432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
