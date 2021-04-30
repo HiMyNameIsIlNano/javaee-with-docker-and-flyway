@@ -13,7 +13,7 @@ import org.flywaydb.core.Flyway;
 @DependsOn(value = "dataSource")
 public class FlywayMigrator {
 
-    public static final String MIGRATIONS_LOCATION = "db/h2";
+    public static final String MIGRATIONS_LOCATION = "db";
 
     public FlywayMigrator() {
     }

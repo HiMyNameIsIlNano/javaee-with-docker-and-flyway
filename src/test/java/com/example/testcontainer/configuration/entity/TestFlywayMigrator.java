@@ -1,6 +1,5 @@
-package com.example.testcontainer.configuration.boundary;
+package com.example.testcontainer.configuration.entity;
 
-import com.example.testcontainer.configuration.entity.FlywayMigrator;
 import javax.validation.constraints.NotNull;
 import org.h2.jdbcx.JdbcDataSource;
 import org.postgresql.ds.PGSimpleDataSource;

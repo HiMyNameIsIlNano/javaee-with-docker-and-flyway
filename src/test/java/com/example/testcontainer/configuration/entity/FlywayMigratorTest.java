@@ -1,7 +1,6 @@
 package com.example.testcontainer.configuration.entity;
 
 import com.example.testcontainer.configuration.boundary.H2TestDataSource;
-import com.example.testcontainer.configuration.boundary.TestFlywayMigrator;
 import com.example.testcontainer.configuration.boundary.TestTransactionManagerFactory;
 import java.sql.SQLException;
 import javax.persistence.EntityManager;

@@ -1,13 +1,11 @@
 package com.example.testcontainer.dummy.entity;
 
-import com.example.testcontainer.configuration.boundary.H2TestDataSource;
 import com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource;
-import com.example.testcontainer.configuration.boundary.TestFlywayMigrator;
+import com.example.testcontainer.configuration.entity.TestFlywayMigrator;
 import com.example.testcontainer.configuration.boundary.TestTransactionManagerFactory;
 import java.sql.SQLException;
 import java.util.Optional;
 import javax.persistence.EntityManager;
-import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
