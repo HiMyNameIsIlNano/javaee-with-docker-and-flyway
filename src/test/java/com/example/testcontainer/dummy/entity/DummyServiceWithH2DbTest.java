@@ -1,8 +1,9 @@
 package com.example.testcontainer.dummy.entity;
 
 import com.example.testcontainer.configuration.boundary.H2TestDataSource;
-import com.example.testcontainer.configuration.entity.TestFlywayMigrator;
 import com.example.testcontainer.configuration.boundary.TestTransactionManagerFactory;
+import com.example.testcontainer.configuration.entity.TestFlywayMigrator;
+import com.example.testcontainer.dummy.entity.Dummy.DummyBuilder;
 import java.sql.SQLException;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -38,7 +39,10 @@ class DummyServiceWithH2DbTest {
         Assertions.assertNotNull(testSubject);
 
         transactionManagerFactory.startTransaction();
-        final Dummy dummy = testSubject.save(new Dummy("test"));
+        final Dummy testObject = DummyBuilder.forCreation()
+                .withText("test")
+                .build();
+        final Dummy dummy = testSubject.save(testObject);
 
         transactionManagerFactory.startTransaction();
         final Optional<Dummy> dummyOptional = testSubject.findById(dummy.getId());
@@ -51,7 +55,10 @@ class DummyServiceWithH2DbTest {
         Assertions.assertNotNull(testSubject);
 
         transactionManagerFactory.startTransaction();
-        final Dummy dummy = testSubject.save(new Dummy("test"));
+        final Dummy testObject = DummyBuilder.forCreation()
+                .withText("test")
+                .build();
+        final Dummy dummy = testSubject.save(testObject);
 
         transactionManagerFactory.startTransaction();
         final Optional<Dummy> dummyOptional = testSubject.findById(dummy.getId());
@@ -59,13 +66,16 @@ class DummyServiceWithH2DbTest {
         Assertions.assertEquals("test", dummyOptional.get().getText());
 
         final Dummy dummyToUpdate = dummyOptional.get();
-        dummyToUpdate.setText("newValue");
+        final Dummy updatedTestObject = DummyBuilder.forUpdate(dummyToUpdate)
+                .withText("newValue")
+                .build();
 
         transactionManagerFactory.startTransaction();
-        testSubject.update(dummyToUpdate);
+        final Dummy testObjectAfterUpdate = testSubject.update(updatedTestObject);
 
         transactionManagerFactory.startTransaction();
-        final Optional<Dummy> dummyAfterUpdateOptional = testSubject.findById(dummy.getId());
+        final Optional<Dummy> dummyAfterUpdateOptional = testSubject
+                .findById(testObjectAfterUpdate.getId());
         Assertions.assertTrue(dummyAfterUpdateOptional.isPresent());
         Assertions.assertEquals("newValue", dummyAfterUpdateOptional.get().getText());
     }

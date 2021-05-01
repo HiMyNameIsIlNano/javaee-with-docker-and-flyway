@@ -6,23 +6,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "TEST_TABLE")
 @Entity
-public class Dummy {
+class Dummy {
 
     @Id
+    @NotNull
     @SequenceGenerator(name = "dummyIdGenerator", sequenceName = "DUMMY_ID_GEN")
     @GeneratedValue(generator = "dummyIdGenerator", strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
 
+    @NotNull
     private String text;
 
     public Dummy() {
-
     }
 
-    public Dummy(String text) {
+    private Dummy(final Long id, final String text) {
+        this.id = id;
         this.text = text;
     }
 
@@ -34,7 +38,32 @@ public class Dummy {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public static class DummyBuilder {
+
+        private final Long id;
+
+        private String text;
+
+        private DummyBuilder(final Long id, final String text) {
+            this.id = id;
+            this.text = text;
+        }
+
+        public static DummyBuilder forCreation() {
+            return new DummyBuilder(null, null);
+        }
+
+        public static DummyBuilder forUpdate(@NotNull @Valid Dummy dummy) {
+            return new DummyBuilder(dummy.getId(), dummy.getText());
+        }
+
+        public DummyBuilder withText(@NotNull final String text) {
+            this.text = text;
+            return this;
+        }
+
+        public Dummy build() {
+            return new Dummy(id, text);
+        }
     }
 }

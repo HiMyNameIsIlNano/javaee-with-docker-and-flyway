@@ -1,8 +1,9 @@
 #idea
 .idea
 target
-testcontainer.iml
+*.iml
 *.bak
+*.new
 
 # Compiled class file
 *.class
