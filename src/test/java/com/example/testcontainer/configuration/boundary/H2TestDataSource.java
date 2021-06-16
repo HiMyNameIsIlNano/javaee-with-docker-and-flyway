@@ -13,14 +13,8 @@ public class H2TestDataSource {
 
     public final static String H2_PERSISTENCE_UNIT_NAME = "h2-pu";
 
-    @PersistenceContext(unitName = "h2-pu")
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    private H2TestDataSource() {
-        // for JPA.
-    }
-
-    @Inject
     public H2TestDataSource(@NotNull final EntityManager entityManager) {
         this.entityManager = entityManager;
     }

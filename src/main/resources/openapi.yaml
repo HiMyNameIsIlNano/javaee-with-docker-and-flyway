@@ -1,0 +1,11 @@
+resourcePackages:
+  - com.example.testcontainer
+prettyPrint: true
+cacheTTL: 0
+openAPI:
+  info:
+    version: '1.0'
+    title: Testcontainer api
+    description: 'Text'
+    contact:
+      email: himynameisilnano@github

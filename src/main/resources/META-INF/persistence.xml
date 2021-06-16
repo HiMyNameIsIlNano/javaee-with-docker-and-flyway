@@ -3,17 +3,19 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
   version="2.2">
-  <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="postgresDS" transaction-type="JTA">
 
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-    <non-jta-data-source>java:global/DUMMY_DS</non-jta-data-source>
+    <jta-data-source>java:/postgresDS</jta-data-source>
 
     <properties>
-      <!-- This is actually not used -->
-      <!-- Add some property -->
-      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
-      <property name="org.hibernate.tool.hbm2ddl " value="DEBUG"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+      <property name="javax.persistence.jdbc.user" value="postgresprod"/>
+      <property name="javax.persistence.jdbc.password" value="postgresprod"/>
+      <property name="javax.persistence.schema-generation.database.action" value="none"/>
+      <property name="org.hibernate.tool.hbm2ddl" value="DEBUG"/>
+      <property name="hibernate.flyway.integrator.enable" value="TRUE"/>
       <property name="show_sql" value="true"/>
     </properties>
 

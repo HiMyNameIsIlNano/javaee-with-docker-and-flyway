@@ -1,0 +1,14 @@
+FROM jboss/wildfly:23.0.1.Final
+
+ADD customization /opt/jboss/wildfly/customization/
+ADD postgresql-jdbc-driver.jar /tmp/
+
+# Add an administrative user
+RUN /opt/jboss/wildfly/bin/add-user.sh -u admin -p Admin#123456 --silent
+# Apply wildfly customization cli files
+RUN /opt/jboss/wildfly/customization/customize-wildfly.sh standalone
+
+ADD javaee-docker-flyway.war /opt/jboss/wildfly/standalone/deployments/
+
+USER jboss
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "--debug", "*:8787", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

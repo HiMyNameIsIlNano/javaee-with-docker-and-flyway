@@ -2,7 +2,7 @@ package com.example.testcontainer.dummy.entity;
 
 import com.example.testcontainer.configuration.boundary.H2TestDataSource;
 import com.example.testcontainer.configuration.boundary.TestTransactionManagerFactory;
-import com.example.testcontainer.configuration.entity.TestFlywayMigrator;
+import com.example.testcontainer.configuration.entity.TestFlywayIntegrator;
 import com.example.testcontainer.dummy.entity.Dummy.DummyBuilder;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -26,7 +26,7 @@ class DummyServiceWithH2DbTest {
 
         final EntityManager entityManager = transactionManagerFactory.getEntityManager();
         final JdbcDataSource h2DataSource = new H2TestDataSource(entityManager).createDataSource();
-        TestFlywayMigrator.migrate(h2DataSource);
+        new TestFlywayIntegrator().migrate(h2DataSource);
     }
 
     @BeforeEach

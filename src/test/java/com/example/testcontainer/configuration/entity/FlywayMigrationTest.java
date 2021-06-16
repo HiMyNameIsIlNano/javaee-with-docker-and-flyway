@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.Test;
 
-class FlywayMigratorTest {
+class FlywayMigrationTest {
 
     @Test
     public void flywayMigratorTest() throws SQLException {
@@ -18,7 +18,7 @@ class FlywayMigratorTest {
         final JdbcDataSource h2DataSource = new H2TestDataSource(entityManager)
                 .createDataSource();
 
-        TestFlywayMigrator.migrate(h2DataSource);
+        new TestFlywayIntegrator().migrate(h2DataSource);
     }
 
 }

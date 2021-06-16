@@ -1,0 +1,7 @@
+batch
+
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_INFO:add(suffix=".yyyy.MM.dd", file={"path"=>"testcontainer.info.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/async-handler=INFO_QS_ASYNC:add(level=INFO,queue-length=1024,overflow-action=BLOCK,subhandlers=["FILE_QS_INFO"])
+/subsystem=logging/logger=com.example.testcontainer:add(level=INFO,handlers=[INFO_QS_ASYNC])
+
+run-batch

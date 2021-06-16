@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Table(name = "TEST_TABLE")
 @Entity
-class Dummy {
+public class Dummy {
 
     @Id
     @NotNull

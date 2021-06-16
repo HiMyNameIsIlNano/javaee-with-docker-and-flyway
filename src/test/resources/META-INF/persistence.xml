@@ -9,11 +9,9 @@
 
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-      <property name="javax.persistence.jdbc.url"
-        value="jdbc:h2:mem:test;"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="javax.persistence.jdbc.password" value=""/>
-
       <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
 
       <property name="javax.persistence.schema-generation.database.action" value="none"/>
@@ -35,9 +33,10 @@
 
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:6432/"/>
-      <property name="javax.persistence.jdbc.user" value="postgres"/>
-      <property name="javax.persistence.jdbc.password" value="postgres"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:6432/postgres"/>
+      <property name="javax.persistence.jdbc.user" value="postgrestest"/>
+      <property name="javax.persistence.jdbc.password" value="postgrestest"/>
+      <property name="javax.persistence.schema-generation.database.action" value="none"/>
     </properties>
 
   </persistence-unit>

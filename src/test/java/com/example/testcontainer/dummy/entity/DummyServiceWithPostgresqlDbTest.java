@@ -2,7 +2,7 @@ package com.example.testcontainer.dummy.entity;
 
 import com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource;
 import com.example.testcontainer.configuration.boundary.TestTransactionManagerFactory;
-import com.example.testcontainer.configuration.entity.TestFlywayMigrator;
+import com.example.testcontainer.configuration.entity.TestFlywayIntegrator;
 import com.example.testcontainer.dummy.entity.Dummy.DummyBuilder;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class DummyServiceWithPostgresqlDbTest {
         final EntityManager entityManager = transactionManagerFactory.getEntityManager();
         final PGSimpleDataSource postgresDataSource = new PostgresqlTestDataSource(entityManager)
                 .createDataSource();
-        TestFlywayMigrator.migrate(postgresDataSource);
+        new TestFlywayIntegrator().migrate(postgresDataSource);
     }
 
     @BeforeEach
