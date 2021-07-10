@@ -1,16 +1,20 @@
-package com.example.testcontainer.configuration.entity;
+package com.example.testcontainer.flyway;
 
 import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
 
-public class TestFlywayIntegrator {
+public class FlywayTestMigrator {
 
-    private final String migrationLocation;
+    private final String[] migrationLocations;
 
-    public TestFlywayIntegrator() {
-        this.migrationLocation = "db/migration";
+    public FlywayTestMigrator() {
+        this.migrationLocations = new String[]{"db/migration"};
+    }
+
+    public FlywayTestMigrator(String... locations) {
+        this.migrationLocations = locations;
     }
 
     public void migrate(@NotNull final PGSimpleDataSource pgSimpleDataSource) {
@@ -20,7 +24,7 @@ public class TestFlywayIntegrator {
     private void initFlyway(DataSource dataSource) {
         Flyway.configure()
                 .dataSource(dataSource)
-                .locations(migrationLocation)
+                .locations(migrationLocations)
                 .load()
                 .migrate();
     }

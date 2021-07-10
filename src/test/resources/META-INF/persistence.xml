@@ -7,7 +7,7 @@
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <class>com.example.testcontainer.dummy.entity.Dummy</class>
 
-    <!-- The properties for this persistence unit are to be found in the com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource -->
+    <!-- The properties for this persistence unit are to be found in the com.example.testcontainer.helper.boundary.PostgresqlTestDataSource -->
 
   </persistence-unit>
 </persistence>

@@ -1,15 +1,15 @@
-package com.example.testcontainer.configuration.entity;
+package com.example.testcontainer.flyway;
 
-import static com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource.DB_NAME;
-import static com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource.DOCKER_IMAGE_NAME;
-import static com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource.DOCKER_IMAGE_VERSION;
-import static com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource.PASSWORD;
-import static com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource.PORT;
-import static com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource.POSTGRES_PERSISTENCE_UNIT_NAME;
-import static com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource.USER;
+import static com.example.testcontainer.helper.boundary.PostgresqlTestDataSource.DB_NAME;
+import static com.example.testcontainer.helper.boundary.PostgresqlTestDataSource.DOCKER_IMAGE_NAME;
+import static com.example.testcontainer.helper.boundary.PostgresqlTestDataSource.DOCKER_IMAGE_VERSION;
+import static com.example.testcontainer.helper.boundary.PostgresqlTestDataSource.PASSWORD;
+import static com.example.testcontainer.helper.boundary.PostgresqlTestDataSource.PORT;
+import static com.example.testcontainer.helper.boundary.PostgresqlTestDataSource.POSTGRES_PERSISTENCE_UNIT_NAME;
+import static com.example.testcontainer.helper.boundary.PostgresqlTestDataSource.USER;
 
-import com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource;
-import com.example.testcontainer.configuration.boundary.TestTransactionManagerFactory;
+import com.example.testcontainer.helper.boundary.PostgresqlTestDataSource;
+import com.example.testcontainer.helper.entity.TransactionManagerTestHelper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.persistence.EntityManager;
@@ -47,7 +47,7 @@ class FlywayMigrationTest {
 
     @Test
    public void testFlywayMigration() throws SQLException {
-        TestTransactionManagerFactory transactionManagerFactory = TestTransactionManagerFactory
+        TransactionManagerTestHelper transactionManagerFactory = TransactionManagerTestHelper
                 .createEntityManagerForPersistenceUnit(
                         POSTGRES_PERSISTENCE_UNIT_NAME,
                         POSTGRES_TEST_DATASOURCE.getPersistenceUnitProperties()
@@ -57,7 +57,7 @@ class FlywayMigrationTest {
         final PGSimpleDataSource postgresDataSource = POSTGRES_TEST_DATASOURCE
                 .withEntityManager(entityManager)
                 .createDataSource();
-        new TestFlywayIntegrator().migrate(postgresDataSource);
+        new FlywayTestMigrator().migrate(postgresDataSource);
 
         ResultSet resultSet = transactionManagerFactory.performQuery(postgresDataSource,
                 "SELECT version, description FROM flyway_schema_history");

@@ -1,4 +1,4 @@
-package com.example.testcontainer.configuration.boundary;
+package com.example.testcontainer.helper.boundary;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,8 +1,9 @@
 package com.example.testcontainer.dummy.entity;
 
-import com.example.testcontainer.configuration.boundary.PostgresqlTestDataSource;
-import com.example.testcontainer.configuration.boundary.TestTransactionManagerFactory;
-import com.example.testcontainer.configuration.entity.TestFlywayIntegrator;
+import com.example.testcontainer.helper.boundary.PostgresSQLContainerHelper;
+import com.example.testcontainer.helper.boundary.PostgresqlTestDataSource;
+import com.example.testcontainer.helper.entity.TransactionManagerTestHelper;
+import com.example.testcontainer.flyway.FlywayTestMigrator;
 import com.example.testcontainer.dummy.entity.Dummy.DummyBuilder;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -17,18 +18,14 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
-public class DummyServiceWithPostgresqlDbTest {
+public class DummyServiceDBIntegrationTest {
 
     private DummyService testSubject;
 
-    private static TestTransactionManagerFactory transactionManagerFactory;
+    private static TransactionManagerTestHelper transactionManagerFactory;
 
     @Container
-    private static final PostgreSQLContainer<?> POSTGRESQL_CONTAINER = new PostgreSQLContainer<>(String.format("%s:%s", PostgresqlTestDataSource.DOCKER_IMAGE_NAME, PostgresqlTestDataSource.DOCKER_IMAGE_VERSION))
-            .withDatabaseName(PostgresqlTestDataSource.DB_NAME)
-            .withExposedPorts(PostgresqlTestDataSource.PORT)
-            .withUsername(PostgresqlTestDataSource.USER)
-            .withPassword(PostgresqlTestDataSource.PASSWORD);
+    private static final PostgreSQLContainer<?> POSTGRESQL_CONTAINER = PostgresSQLContainerHelper.build();
 
     @BeforeAll
     public static void runDbMigration() throws SQLException {
@@ -39,7 +36,7 @@ public class DummyServiceWithPostgresqlDbTest {
 
         final PostgresqlTestDataSource postgresqlTestDataSource = new PostgresqlTestDataSource(host,
                 port);
-        transactionManagerFactory = TestTransactionManagerFactory
+        transactionManagerFactory = TransactionManagerTestHelper
                 .createEntityManagerForPersistenceUnit(
                         PostgresqlTestDataSource.POSTGRES_PERSISTENCE_UNIT_NAME,
                         postgresqlTestDataSource.getPersistenceUnitProperties()
@@ -49,7 +46,7 @@ public class DummyServiceWithPostgresqlDbTest {
         final PGSimpleDataSource postgresDataSource = postgresqlTestDataSource
                 .withEntityManager(entityManager)
                 .createDataSource();
-        new TestFlywayIntegrator().migrate(postgresDataSource);
+        new FlywayTestMigrator().migrate(postgresDataSource);
     }
 
     @BeforeEach
