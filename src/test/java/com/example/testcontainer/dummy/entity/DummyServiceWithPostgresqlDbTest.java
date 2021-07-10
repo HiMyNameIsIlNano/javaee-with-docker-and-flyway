@@ -12,21 +12,42 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.postgresql.ds.PGSimpleDataSource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+@Testcontainers
 public class DummyServiceWithPostgresqlDbTest {
 
     private DummyService testSubject;
 
     private static TestTransactionManagerFactory transactionManagerFactory;
 
+    @Container
+    private static final PostgreSQLContainer<?> POSTGRESQL_CONTAINER = new PostgreSQLContainer<>(String.format("%s:%s", PostgresqlTestDataSource.DOCKER_IMAGE_NAME, PostgresqlTestDataSource.DOCKER_IMAGE_VERSION))
+            .withDatabaseName(PostgresqlTestDataSource.DB_NAME)
+            .withExposedPorts(PostgresqlTestDataSource.PORT)
+            .withUsername(PostgresqlTestDataSource.USER)
+            .withPassword(PostgresqlTestDataSource.PASSWORD);
+
     @BeforeAll
     public static void runDbMigration() throws SQLException {
+        Assertions.assertTrue(POSTGRESQL_CONTAINER.isRunning());
+
+        String host = POSTGRESQL_CONTAINER.getHost();
+        Integer port = POSTGRESQL_CONTAINER.getMappedPort(PostgresqlTestDataSource.PORT);
+
+        final PostgresqlTestDataSource postgresqlTestDataSource = new PostgresqlTestDataSource(host,
+                port);
         transactionManagerFactory = TestTransactionManagerFactory
                 .createEntityManagerForPersistenceUnit(
-                        PostgresqlTestDataSource.POSTGRES_PERSISTENCE_UNIT_NAME);
+                        PostgresqlTestDataSource.POSTGRES_PERSISTENCE_UNIT_NAME,
+                        postgresqlTestDataSource.getPersistenceUnitProperties()
+                );
 
         final EntityManager entityManager = transactionManagerFactory.getEntityManager();
-        final PGSimpleDataSource postgresDataSource = new PostgresqlTestDataSource(entityManager)
+        final PGSimpleDataSource postgresDataSource = postgresqlTestDataSource
+                .withEntityManager(entityManager)
                 .createDataSource();
         new TestFlywayIntegrator().migrate(postgresDataSource);
     }

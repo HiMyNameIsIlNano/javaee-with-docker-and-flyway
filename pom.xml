@@ -35,6 +35,7 @@
 
     <junit.version>5.7.1</junit.version>
     <h2.version>1.4.200</h2.version>
+    <testcontainers-bom.version>1.15.3</testcontainers-bom.version>
   </properties>
 
   <dependencyManagement>
@@ -43,6 +44,14 @@
         <groupId>org.wildfly.bom</groupId>
         <artifactId>wildfly-jakartaee8-with-tools-builder</artifactId>
         <version>${wildfly.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers-bom</artifactId>
+        <version>${testcontainers-bom.version}</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -67,6 +76,12 @@
         <groupId>org.flywaydb</groupId>
         <artifactId>flyway-core</artifactId>
         <version>${flyway-core.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>${junit.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -149,14 +164,23 @@
     <!-- Test -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
+      <artifactId>junit-jupiter</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>${h2.version}</version>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -187,6 +211,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <version>3.1.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
       </plugin>
       <plugin>
         <groupId>com.coderplus.maven.plugins</groupId>
@@ -224,7 +253,7 @@
               <fileSets>
                 <fileSet>
                   <!-- Web Artifact -->
-                  <sourceFile>${project.build.directory}/${project.artifactId}-${version}.war
+                  <sourceFile>${project.build.directory}/${project.artifactId}-${project.version}.war
                   </sourceFile>
                   <destinationFile>
                     ${project.build.sourceDirectory}/docker/${project.artifactId}.war
