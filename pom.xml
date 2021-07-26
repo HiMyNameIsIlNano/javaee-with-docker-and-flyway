@@ -43,12 +43,6 @@
       <version>${javax.ws.rs-api.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!--<dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>${javax.servlet-api.version}</version>
-      <scope>provided</scope>
-    </dependency>-->
     <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>javax.transaction-api</artifactId>
