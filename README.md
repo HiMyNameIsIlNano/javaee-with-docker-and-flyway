@@ -1,2 +1,3 @@
-# javaee-with-docker-and-flyway
-A small POC to test how to run Flyway Migration in a JavaEE Project running a Postgres DB in docker
+# JavaEE Application Journey
+
+This is just a small POC to build a simple JavaEE Web Application. The main branch is left blank. The application will be built in several steps identified by a sequence number (e.g. `00_branch_name`) and will be increased with every new step.
