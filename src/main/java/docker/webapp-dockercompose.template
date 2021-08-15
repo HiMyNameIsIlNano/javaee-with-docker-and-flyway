@@ -8,20 +8,13 @@ services:
     depends_on:
       - webapp-db
     ports:
-      - 127:.0.0.1:8080:8080
-      - 127:.0.0.1:8787:8787
-      - 127:.0.0.1:9990:9990
+      - 8080:8080
+      - 8787:8787
+      - 9990:9990
   webapp-db:
     image: postgres:${postgresql.docker-image.version}
     ports:
-      - 127:.0.0.1:5432:5432
+      - 5432:5432
     environment:
       - POSTGRES_USER=${postgresql.username}
       - POSTGRES_PASSWORD=${postgresql.password}
-  integration-test-db:
-    image: postgres:${postgresql.docker-image.version}
-    ports:
-      - 127:.0.0.1:6432:5432
-    environment:
-      - POSTGRES_USER=${postgresql.test.username}
-      - POSTGRES_PASSWORD=${postgresql.test.password}

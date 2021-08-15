@@ -6,7 +6,7 @@ batch
 # Add the  PostgreSQL database driver to the datasources subsystem
 module add --name=org.postgresql --resources=/tmp/postgresql-jdbc-driver.jar --dependencies=javax.api,javax.transaction.api
 /subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgresql",driver-class-name=org.postgresql.Driver)
-data-source add --jndi-name=java:/postgresDS --name=postgresDS --connection-url=jdbc:postgresql://webapp-db:5432/postgres --driver-name=postgres --user-name=postgresprod --password=postgresprod
+data-source add --jndi-name=java:/postgresDS --name=postgresDS --connection-url=jdbc:postgresql://webapp-db/postgres --driver-name=postgres --user-name=postgresprod --password=postgresprod
 
 run-batch
 
